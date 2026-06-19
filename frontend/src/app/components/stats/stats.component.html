@@ -1,0 +1,53 @@
+<div class="card">
+  <h1>URL Stats</h1>
+  <p class="subtitle">Paste a short URL or short code to see its stats.</p>
+
+  <form (ngSubmit)="onSubmit()" #statsForm="ngForm">
+    <div class="field">
+      <label for="shortCode">Short URL or code</label>
+      <input
+        id="shortCode"
+        name="shortCode"
+        type="text"
+        [(ngModel)]="shortCodeInput"
+        placeholder="http://localhost:8090/abc1 or abc1"
+        required
+      />
+    </div>
+
+    <button type="submit" [disabled]="!statsForm.form.valid || loading">
+      {{ loading ? 'Looking up...' : 'Get Stats' }}
+    </button>
+  </form>
+
+  <div class="result" *ngIf="stats">
+    <div class="stat-row">
+      <span class="stat-key">Short code</span>
+      <span class="stat-value">{{ stats.shortCode }}</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-key">Long URL</span>
+      <span class="stat-value">{{ stats.longUrl }}</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-key">Hits</span>
+      <span class="stat-value">{{ stats.hitCount }}</span>
+    </div>
+    <div class="stat-row" *ngIf="stats.createdAt">
+      <span class="stat-key">Created at</span>
+      <span class="stat-value">{{ stats.createdAt }}</span>
+    </div>
+    <div class="stat-row" *ngIf="stats.lastAccessedAt">
+      <span class="stat-key">Last accessed</span>
+      <span class="stat-value">{{ stats.lastAccessedAt }}</span>
+    </div>
+    <div class="stat-row" *ngIf="stats.expiresAt">
+      <span class="stat-key">Expires at</span>
+      <span class="stat-value">{{ stats.expiresAt }}</span>
+    </div>
+  </div>
+
+  <div class="error" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+</div>

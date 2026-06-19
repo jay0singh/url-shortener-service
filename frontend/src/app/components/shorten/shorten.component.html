@@ -1,0 +1,45 @@
+<div class="card">
+  <h1>Shorten a URL</h1>
+  <p class="subtitle">Paste a long link below and get a short one back.</p>
+
+  <form (ngSubmit)="onSubmit()" #shortenForm="ngForm">
+    <div class="field">
+      <label for="url">Long URL</label>
+      <input
+        id="url"
+        name="url"
+        type="text"
+        [(ngModel)]="url"
+        placeholder="https://example.com/some/long/path"
+        required
+      />
+    </div>
+
+    <div class="field">
+      <label for="ttlDays">Expires after (days, optional)</label>
+      <input
+        id="ttlDays"
+        name="ttlDays"
+        type="number"
+        [(ngModel)]="ttlDays"
+        min="1"
+        max="365"
+        placeholder="e.g. 30"
+      />
+    </div>
+
+    <button type="submit" [disabled]="!shortenForm.form.valid || loading">
+      {{ loading ? 'Shortening...' : 'Shorten URL' }}
+    </button>
+  </form>
+
+  <div class="result" *ngIf="shortUrl">
+    <span class="result-label">Your short URL</span>
+    <a [href]="shortUrl" target="_blank">{{ shortUrl }}</a>
+    <span class="expires" *ngIf="expiresAt">Expires at {{ expiresAt }}</span>
+  </div>
+
+  <div class="error" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+</div>

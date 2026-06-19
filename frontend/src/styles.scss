@@ -1,0 +1,160 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  color: #1f2937;
+}
+
+a {
+  color: inherit;
+}
+
+button {
+  font-family: inherit;
+}
+
+.card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  padding: 2rem;
+  width: 100%;
+  max-width: 480px;
+  align-self: flex-start;
+
+  h1 {
+    margin: 0 0 0.25rem;
+    font-size: 1.5rem;
+  }
+
+  .subtitle {
+    margin: 0 0 1.5rem;
+    color: #6b7280;
+    font-size: 0.9rem;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+
+    label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #374151;
+    }
+
+    input {
+      padding: 0.6rem 0.75rem;
+      font-size: 1rem;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      transition: border-color 0.15s ease;
+
+      &:focus {
+        outline: none;
+        border-color: #6366f1;
+      }
+    }
+  }
+
+  button {
+    padding: 0.65rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+    background: #6366f1;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+
+    &:hover:not(:disabled) {
+      background: #4f46e5;
+    }
+
+    &:disabled {
+      background: #c7d2fe;
+      cursor: not-allowed;
+    }
+  }
+
+  .result {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    border-radius: 8px;
+    background: #ecfdf5;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+
+    .result-label {
+      font-size: 0.8rem;
+      color: #059669;
+      font-weight: 600;
+    }
+
+    a {
+      font-weight: 600;
+      word-break: break-all;
+      color: #047857;
+    }
+
+    .expires {
+      font-size: 0.8rem;
+      color: #6b7280;
+    }
+  }
+
+  .error {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    border-radius: 8px;
+    background: #fef2f2;
+    color: #b91c1c;
+    font-size: 0.9rem;
+  }
+
+  .stat-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #f3f4f6;
+    font-size: 0.9rem;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .stat-key {
+      color: #6b7280;
+    }
+
+    .stat-value {
+      font-weight: 600;
+      color: #111827;
+      word-break: break-all;
+      text-align: right;
+      margin-left: 1rem;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 1.25rem;
+    border-radius: 8px;
+  }
+}

@@ -1,0 +1,18 @@
+<div class="app-shell">
+  <header class="app-header">
+    <span class="brand">URL Shortener</span>
+    <nav>
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Shorten</a>
+      <a routerLink="/stats" routerLinkActive="active">Stats</a>
+    </nav>
+  </header>
+
+  <main class="app-main">
+    <router-outlet></router-outlet>
+  </main>
+
+  <footer class="app-footer">
+    Built by
+    <a href="https://www.linkedin.com/in/jay-prakash-016148214/" target="_blank" rel="noopener">Jay Prakash</a>
+  </footer>
+</div>
