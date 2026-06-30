@@ -19,6 +19,8 @@ public interface URLMappingRepository extends JpaRepository<UrlMapping, Long> {
     @Query("SELECT u FROM UrlMapping u WHERE u.id = :id AND u.isActive = true AND (u.expiresAt IS NULL OR u.expiresAt > :now)")
     Optional<UrlMapping> findActiveById(@Param("id") Long id, @Param("now") LocalDateTime now);
 
+    Optional<UrlMapping> findByUrlHash(String urlHash);
+
     @Modifying
     @Query("UPDATE UrlMapping u SET u.isActive = false WHERE u.isActive = true AND u.expiresAt IS NOT NULL AND u.expiresAt <= :now")
     int deactivateExpired(@Param("now") LocalDateTime now);

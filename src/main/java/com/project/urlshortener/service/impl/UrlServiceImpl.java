@@ -81,6 +81,18 @@ public class UrlServiceImpl implements UrlService {
             return new UrlCreationResult(encoder.encode(entity.getId()), entity.getExpiresAt());
         }
 
+        // Reactivate an existing inactive (expired or deactivated) record for this URL
+        UrlMapping inactive = repository.findByUrlHash(hash).orElse(null);
+        if (inactive != null) {
+            inactive.setIsActive(true);
+            inactive.setExpiresAt(expiresAt);
+            inactive.setHitCount(0L);
+            repository.save(inactive);
+            log.info("Reactivated existing URL mapping id={}", inactive.getId());
+            urlResolutionCache.evict(encoder.encode(inactive.getId()));
+            return new UrlCreationResult(encoder.encode(inactive.getId()), inactive.getExpiresAt());
+        }
+
         // Create new entry
         try {
             UrlMapping newEntity = new UrlMapping();
