@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://your-backend.up.railway.app/api/v1'
+  apiUrl: 'https://url-shortener-service-production-ebca.up.railway.app/api/v1'
 };
