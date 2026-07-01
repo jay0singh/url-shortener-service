@@ -15,6 +15,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
 
 import java.time.LocalDateTime;
@@ -127,7 +128,10 @@ class UrlServiceImplTest {
         when(repository.findActiveByHash(eq(HASH), any()))
                 .thenReturn(Optional.empty())
                 .thenReturn(Optional.of(mappingWithId(LONG_URL, null)));
-        when(repository.save(any())).thenThrow(new DataIntegrityViolationException("duplicate"));
+        when(repository.findByUrlHash(HASH)).thenReturn(Optional.empty());
+        ConstraintViolationException cause =
+                new ConstraintViolationException("duplicate", null, "uk_url_mapping_url_hash");
+        when(repository.save(any())).thenThrow(new DataIntegrityViolationException("duplicate", cause));
 
         UrlCreationResult result = service.createShortUrl(LONG_URL, null);
 
