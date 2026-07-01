@@ -13,17 +13,46 @@
     {
       "key": "shortCode",
       "value": ""
+    },
+    {
+      "key": "adminUsername",
+      "value": "admin"
+    },
+    {
+      "key": "adminPassword",
+      "value": "admin"
     }
   ],
   "item": [
     {
       "name": "Shorten",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var json = pm.response.json();",
+              "if (json.shortUrl) {",
+              "    var code = json.shortUrl.split('/').pop();",
+              "    pm.collectionVariables.set('shortCode', code);",
+              "    console.log('shortCode saved:', code);",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
       "request": {
         "method": "POST",
-        "header": [],
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n    \"url\" : \"www.google.com\",\r\n    \"ttlDays\" : 30\r\n}",
+          "raw": "{\n    \"url\": \"https://www.google.com\",\n    \"ttlDays\": 30\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -45,19 +74,16 @@
       "response": []
     },
     {
-      "name": "Deactivate",
+      "name": "Redirect",
       "request": {
-        "method": "DELETE",
+        "method": "GET",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/api/v1/shorten/{{shortCode}}",
+          "raw": "{{baseUrl}}/{{shortCode}}",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
-            "api",
-            "v1",
-            "shorten",
             "{{shortCode}}"
           ]
         }
@@ -85,16 +111,34 @@
       "response": []
     },
     {
-      "name": "Redirect",
+      "name": "Deactivate",
       "request": {
-        "method": "GET",
+        "auth": {
+          "type": "basic",
+          "basic": [
+            {
+              "key": "username",
+              "value": "{{adminUsername}}",
+              "type": "string"
+            },
+            {
+              "key": "password",
+              "value": "{{adminPassword}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/{{shortCode}}",
+          "raw": "{{baseUrl}}/api/v1/shorten/{{shortCode}}",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "api",
+            "v1",
+            "shorten",
             "{{shortCode}}"
           ]
         }
