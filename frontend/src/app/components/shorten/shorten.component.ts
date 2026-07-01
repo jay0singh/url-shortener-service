@@ -20,13 +20,22 @@ export class ShortenComponent {
   expiresAt: string | null = null;
   errorMessage: string | null = null;
   loading = false;
+  copied = false;
 
   constructor(private urlShortenerService: UrlShortenerService) { }
+
+  copy(): void {
+    navigator.clipboard.writeText(this.shortUrl!).then(() => {
+      this.copied = true;
+      setTimeout(() => (this.copied = false), 2000);
+    });
+  }
 
   onSubmit(): void {
     this.errorMessage = null;
     this.shortUrl = null;
     this.expiresAt = null;
+    this.copied = false;
     this.loading = true;
 
     this.urlShortenerService

@@ -35,7 +35,10 @@
 
   <div class="result" *ngIf="shortUrl">
     <span class="result-label">Your short URL</span>
-    <a [href]="shortUrl" target="_blank">{{ shortUrl }}</a>
+    <div class="result-row">
+      <a [href]="shortUrl" target="_blank">{{ shortUrl }}</a>
+      <button type="button" class="copy-btn" (click)="copy()">{{ copied ? 'Copied!' : 'Copy' }}</button>
+    </div>
     <span class="expires" *ngIf="expiresAt">Expires at {{ expiresAt }}</span>
   </div>
 

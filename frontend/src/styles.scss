@@ -106,10 +106,35 @@ button {
       font-weight: 600;
     }
 
+    .result-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
     a {
       font-weight: 600;
       word-break: break-all;
       color: #047857;
+      flex: 1;
+    }
+
+    .copy-btn {
+      padding: 0.25rem 0.65rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #059669;
+      background: #fff;
+      border: 1px solid #059669;
+      border-radius: 6px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s ease, color 0.15s ease;
+
+      &:hover {
+        background: #059669;
+        color: #fff;
+      }
     }
 
     .expires {
