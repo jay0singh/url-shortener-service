@@ -1,12 +1,14 @@
 package com.project.urlshortener.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.project.urlshortener.config.SecurityConfig;
 import com.project.urlshortener.service.UrlCreationResult;
 import com.project.urlshortener.service.UrlService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
@@ -22,6 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest
+@Import(SecurityConfig.class)
 @TestPropertySource(properties = {
         "app.base-url=http://localhost:8090",
         "app.cors.allowed-origins=*",

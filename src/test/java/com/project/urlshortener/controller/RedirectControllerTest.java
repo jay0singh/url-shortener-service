@@ -1,5 +1,6 @@
 package com.project.urlshortener.controller;
 
+import com.project.urlshortener.config.SecurityConfig;
 import com.project.urlshortener.exception.InvalidShortCodeException;
 import com.project.urlshortener.exception.UrlExpiredException;
 import com.project.urlshortener.exception.UrlNotFoundException;
@@ -7,6 +8,7 @@ import com.project.urlshortener.service.UrlService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -15,6 +17,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(RedirectController.class)
+@Import(SecurityConfig.class)
 class RedirectControllerTest {
 
     @Autowired

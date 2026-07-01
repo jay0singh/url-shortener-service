@@ -4,9 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.urlshortener.exception.InvalidUrlException;
 import com.project.urlshortener.service.UrlCreationResult;
 import com.project.urlshortener.service.UrlService;
+import com.project.urlshortener.config.SecurityConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
@@ -23,12 +25,14 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(UrlController.class)
+@Import(SecurityConfig.class)
 @TestPropertySource(properties = {
         "app.base-url=http://localhost:8090",
         "app.cors.allowed-origins=*"
@@ -115,15 +119,21 @@ class UrlControllerTest {
     void deactivate_validShortCode_returns204() throws Exception {
         doNothing().when(urlService).deactivateUrl("abc1");
 
-        mockMvc.perform(delete("/api/v1/shorten/abc1"))
+        mockMvc.perform(delete("/api/v1/shorten/abc1").with(httpBasic("admin", "admin")))
                 .andExpect(status().isNoContent());
+    }
+
+    @Test
+    void deactivate_noCredentials_returns401() throws Exception {
+        mockMvc.perform(delete("/api/v1/shorten/abc1"))
+                .andExpect(status().isUnauthorized());
     }
 
     @Test
     void deactivate_notFound_returns404() throws Exception {
         doThrow(new UrlNotFoundException("URL not found")).when(urlService).deactivateUrl("abc1");
 
-        mockMvc.perform(delete("/api/v1/shorten/abc1"))
+        mockMvc.perform(delete("/api/v1/shorten/abc1").with(httpBasic("admin", "admin")))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message").value("URL not found"))
                 .andExpect(jsonPath("$.status").value(404));
@@ -133,7 +143,7 @@ class UrlControllerTest {
     void deactivate_invalidShortCode_returns400() throws Exception {
         doThrow(new InvalidShortCodeException("Invalid shortCode")).when(urlService).deactivateUrl("abc1");
 
-        mockMvc.perform(delete("/api/v1/shorten/abc1"))
+        mockMvc.perform(delete("/api/v1/shorten/abc1").with(httpBasic("admin", "admin")))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").value("Invalid shortCode"))
                 .andExpect(jsonPath("$.status").value(400));
