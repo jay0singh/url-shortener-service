@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface UrlRequest {
   url: string;
@@ -21,7 +22,7 @@ export interface UrlStats {
   expiresAt?: string;
 }
 
-const API_BASE_URL = 'http://localhost:8090/api/v1';
+const API_BASE_URL = environment.apiUrl;
 
 @Injectable({
   providedIn: 'root'
