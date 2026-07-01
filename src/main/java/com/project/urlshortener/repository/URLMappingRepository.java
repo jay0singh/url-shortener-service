@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -20,6 +21,9 @@ public interface URLMappingRepository extends JpaRepository<UrlMapping, Long> {
     Optional<UrlMapping> findActiveById(@Param("id") Long id, @Param("now") LocalDateTime now);
 
     Optional<UrlMapping> findByUrlHash(String urlHash);
+
+    @Query("SELECT u.id FROM UrlMapping u WHERE u.isActive = true AND u.expiresAt IS NOT NULL AND u.expiresAt <= :now")
+    List<Long> findExpiredIds(@Param("now") LocalDateTime now);
 
     @Modifying
     @Query("UPDATE UrlMapping u SET u.isActive = false WHERE u.isActive = true AND u.expiresAt IS NOT NULL AND u.expiresAt <= :now")
