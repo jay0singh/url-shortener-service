@@ -19,12 +19,11 @@ public class UrlController {
     private static final Logger log = LoggerFactory.getLogger(UrlController.class);
 
     private final UrlService service;
+    private final String baseUrl;
 
-    @Value("${app.base-url}")
-    private String baseUrl;
-
-    public UrlController(UrlService service) {
+    public UrlController(UrlService service, @Value("${app.base-url}") String baseUrl) {
         this.service = service;
+        this.baseUrl = baseUrl;
     }
 
     @PostMapping("/shorten")

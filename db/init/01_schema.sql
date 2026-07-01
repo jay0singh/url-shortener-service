@@ -10,3 +10,7 @@ CREATE TABLE IF NOT EXISTS url_mapping (
     last_accessed_at TIMESTAMP,
     CONSTRAINT uk_url_mapping_url_hash UNIQUE (url_hash)
 );
+
+CREATE INDEX IF NOT EXISTS idx_url_mapping_active_expires
+    ON url_mapping (is_active, expires_at)
+    WHERE is_active = true AND expires_at IS NOT NULL;
